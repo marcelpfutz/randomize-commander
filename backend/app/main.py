@@ -1,41 +1,40 @@
-import services.scryfall_service as scryfall
-import services.ehdrec_service as ehdrec
+from .services import scryfall_service as scryfall
+from .services import ehdrec_service as ehdrec
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://localhost:8000"],  # Portas frontend/backend
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/api/item")
+async def get_item():
+    # Exemplo: use serviço para dados (retorne dict simulado ou real)
+    commander = scryfall.randomize_commander()
+    # ehdrec_data = ehdrec.get_edh_data(commander.get('formated-name'))
+    # print(commander.get('scryfall')['image_uris']['normal'])
+    return {
+        "image": commander.get('scryfall')['image_uris']['normal'],
+        "title": commander.get('scryfall')['name'],
+        "description": commander.get('scryfall')['oracle_text'],
+    }
+
+# commander = scryfall.randomize_commander()
+# print(f'Randomized commander: {commander.get('Original-Name')}\n')
+# data = ehdrec.get_edh_data(commander.get('Formated-Name'))
+
+# print('Tags e Links:')
+# for item in data:
+#     print(f'{item[0]}: {item[1]}')
+#     print('-----')  
 
 
-commander = scryfall.randomize_commander()
-print(f'Randomized commander: {commander.get('Original-Name')}\n')
-data = ehdrec.get_edh_data(commander.get('Formated-Name'))
-
-print('Tags and Links from EDHREC:')
-for item in data:
-    print(f'{item[0]}: {item[1]}')
-    print('-----')  
-
-
-# scryfall = 'https://api.scryfall.com/cards/random?q=is%3Acommander'
-# scryfall_data = requests.get(scryfall).json()
-
-# def adjust_name(text):
-#     return re.sub(r'-+', '-', re.sub(r'[,\s]', '-', text.lower()))
-
-# commander = adjust_name(scryfall_data['name'])
-
-
-
-# link = 'https://edhrec.com/commanders/' + commander
-# headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36'}
-
-# request_data = requests.get(link)
-
-# print(link)
-
-# data = BeautifulSoup(request_data.text, 'html.parser')
-# all = data.find(class_='NavigationPanel_tags__M9VjI')
-
-# for item in all:
-#     print(item.find(class_='NavigationPanel_label__xMLz1').get_text())
-#     print(item['href'])
-#     print('-----')
 
 
 

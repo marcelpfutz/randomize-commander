@@ -1,0 +1,27 @@
+/* Custom overrides for Tailwind - minimal for dark/purple theme enhancements */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Purple gradient accent for subtle effects */
+.purple-gradient {
+    background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%);
+}
+
+/* Ensure smooth scrolling and focus styles */
+html {
+    scroll-behavior: smooth;
+}
+
+button:focus {
+    outline: 2px solid #8B5CF6;
+    outline-offset: 2px;
+}
+
+/* Responsive image scaling */
+@media (max-width: 768px) {
+    #cardImage {
+        width: 100%;
+        max-width: 300px;
+    }
+}
